@@ -1,38 +1,109 @@
-.App {
-  text-align: center;
+/*
+ * Homework 3
+ * App CSS source code
+ *
+ * Author: Evan Lee
+ * Version: 1.0
+ */
+ .App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Header-Container {
+  background-color: dodgerblue;  
+    color: white;           
+    text-align: center;
+    vertical-align: middle;     
+    /* padding: 10px 0;          */
+    font-size: 24px;         
+    font-weight: bold;       
+    position: fixed;       
+    width: 97.6%;            
+    height: 6%;
+    left: 1.2%;              
+    top: 1%;                 
+    z-index: 0;           
+    font-family: Arial;  
+    border-radius: 5px; 
+
+    display: flex;            /* Enable Flexbox */
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* App.css */
+.BarChart-Container {
+  position: absolute;
+  left: 50.5%;
+  width: 48.3%;
+  top: 9%;
+  height: 90%;
+  display: block;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-sizing: border-box;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Editor-Container {
+  position: absolute;
+  left: 1.2%;
+  width: 48.3%;
+  top: 9%;
+  height: 90%;
+  display: block;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+}
+
+.Actual-BarChart-Box {
+  position: absolute;
+  left: 5%;
+  width: 95%;
+  top: 0%;
+  height: 97%;
+}
+
+.X-Lable-Box {
+  position: absolute;
+  left: 5%;
+  width: 93%;
+  top: 96.5%;
+  height: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 16px; /* or any other size that suits your design */
+  font-family: Arial;
+}
+
+.Y-Label-Box {
+  position: absolute;
+  left: 0%;
+  width: 5%;
+  top: 0%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 15px;
+  font-family: Arial;
 }
 
-.App-link {
-  color: #61dafb;
+.Vertical-Text {
+  line-height: 1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.MenuBar-Container {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  height: 100%;
+
 }
