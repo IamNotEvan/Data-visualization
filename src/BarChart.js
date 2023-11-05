@@ -19,7 +19,6 @@ const BarChart = (props) => {
     
     useEffect(() => {
 
-        // console.log(props.data)
         const svg = d3.select(svgRef.current);
         const tooltip = d3.select(tooltipRef.current);
         svg.selectAll('*').remove();
@@ -31,13 +30,15 @@ const BarChart = (props) => {
         const barsGroup = svg.append('g').classed('bars-group', true);
 
         function customRound(value) {
+            if (value % 1 === 0) {
+                return value; // If it's an integer, don't round up.
+            }
             const integerPart = Math.floor(value);
             const decimalPart = value - integerPart;
-          
             if (decimalPart <= 0.5) {
-              return integerPart + 0.5;
+                return integerPart + 0.5;
             } else {
-              return integerPart + 1;
+                return integerPart + 1;
             }
         }
 
@@ -52,12 +53,13 @@ const BarChart = (props) => {
 
         const maxValue = props.data.data.reduce((max, current) => Math.max(max, current[keys[1]]), 0);
         const upperBound = customRound(maxValue);
-        const numTicks = Math.ceil(upperBound / 0.5);
+        const { numTicks, stepSize } = calculateStepSize(maxValue);
         const barSpacing = 93 / props.data.data.length;
         const barWidth = barSpacing * 0.7;
         const yScale = d3.scaleLinear()
-            .domain([0, upperBound])
-            .range([85, 0]);
+            .domain([0, (numTicks * stepSize).toFixed(1)])
+            .range([ 95, 10]);
+
 
         svg.append('text')
             .attr('x', title.width / 2)
@@ -71,9 +73,9 @@ const BarChart = (props) => {
         
             
     
-        for (let i = 0; i <= numTicks - 1; i++) {
+        for (let i = 0; i <= numTicks ; i++) {
             const yPosition = 95 - (i * 85 / numTicks);
-            const value = (i * upperBound / numTicks).toFixed(1);
+            const value = (i * stepSize).toFixed(1);
             
             svg.append('text')
                 .attr('x', '2.5')
@@ -93,7 +95,7 @@ const BarChart = (props) => {
                 .attr('stroke', 'rgb(191, 191, 191)')
                 .attr('stroke-width', 0.1);
         }
-        
+        // console.log(props.data.data.length)
         // Bars Area
         barsGroup.selectAll('rect')
             .data(props.data.data)
@@ -101,14 +103,21 @@ const BarChart = (props) => {
             .append('rect')
             .attr('x', (d, i) => 7 + i * barSpacing)
             .attr('class', (d, i) => 'bar-' + i)
-            .attr('y', d => 95 - (85 - yScale(d[keys[1]]))) // Adjust the y position
             .attr('width', barWidth)
-            .attr('height', d => 85 - yScale(d[keys[1]])) // Adjust the height of the bars
+            .attr('y', d => {
+                console.log(d[keys[1]])
+                return yScale(d[keys[1]])
+            }) // The y position is the top of the bar
+            .attr('height', d =>{
+                let barHeight = 95 - yScale(d[keys[1]]);
+                if( d[keys[1]] === '')
+                {
+                    barHeight = 0;
+                }
+                return barHeight;
+            }) // The height is the bar's length
             .attr("stroke-width", '0.1pt')
-            // .attr('fill', d => selectedBars.has(d[keys[0]]) ? 'red' : 'dodgerblue')
             .attr('fill', (d, i) => selectedBars.has('bar-' + i) ? 'red' : 'dodgerblue')
-            // .classed('selected', d => selectedBars.has(d[keys[0]]))
-            // .on('click', (event, d) => handleBarClick(d[keys[0]]))
             .on('click', (event) => handleBarClick(event.target.getAttribute('class')))
             .on('mouseover', (event, d) => {
                 const svgRect = svgRef.current.getBoundingClientRect();
@@ -172,6 +181,38 @@ const BarChart = (props) => {
             return newSelectedBars;
         });
     };
+
+    function calculateStepSize(maxValue, maxTicks = 20, minTicks = 0) {
+        let stepSize = 0.5; // Start with the smallest multiple of 0.5
+        let numTicks = Math.ceil(maxValue / stepSize);
+      
+        // Define a function to find the next clean step size
+        function getNextCleanStepSize(currentStepSize) {
+          if (currentStepSize >= 1) {
+            return Math.ceil(currentStepSize); // Round up to the nearest whole number
+          }
+          return currentStepSize; // If less than 1, it's already at the minimum clean step of 0.5
+        }
+      
+        // Increase the step size to get a clean number and acceptable tick count
+        while (numTicks > maxTicks || numTicks < minTicks) {
+          if (numTicks > maxTicks) {
+            stepSize *= 2; // Double the step size to reduce the number of ticks
+          } else if (numTicks < minTicks) {
+            stepSize /= 2; // Half the step size to increase the number of ticks, but not below 0.5
+            stepSize = Math.max(stepSize, 0.5); // Enforce the minimum step size of 0.5
+          }
+          stepSize = getNextCleanStepSize(stepSize);
+          numTicks = Math.ceil(maxValue / stepSize);
+        }
+      
+        return {
+          numTicks: numTicks,
+          stepSize: stepSize
+        };
+    }
+      
+      
 
 
     return (
