@@ -1,3 +1,10 @@
+/*
+ * Homework 3
+ * Editor js source code
+ *
+ * Author: Evan Lee
+ * Version: 1.0
+ */
 import React, { useState, useEffect } from 'react';
 import './Editor.css';
 

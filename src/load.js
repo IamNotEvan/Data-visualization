@@ -1,3 +1,10 @@
+/*
+ * Homework 3
+ * load js source code
+ *
+ * Author: Evan Lee
+ * Version: 1.0
+ */
 import React, { useEffect } from 'react';
 
 const DataLoader = () => {

@@ -1,3 +1,10 @@
+/*
+ * Homework 3
+ * MenuBar js source code
+ *
+ * Author: Evan Lee
+ * Version: 1.0
+ */
 import React, { useState, useRef } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';

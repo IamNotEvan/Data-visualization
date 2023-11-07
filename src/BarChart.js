@@ -217,9 +217,17 @@ const BarChart = (props) => {
 
     return (
         <>
-            <svg ref={svgRef} width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio='none' className='BarChart'>
+            <svg 
+                ref={svgRef}
+                width="100%"
+                height="100%"
+                viewBox="0 0 100 100"
+                preserveAspectRatio='none'
+                className='BarChart'>
             </svg>
-            <div ref={tooltipRef}></div>
+            <div 
+                ref={tooltipRef}>
+            </div>
         </>
     );
 }
