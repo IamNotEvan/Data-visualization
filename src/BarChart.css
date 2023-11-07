@@ -20,7 +20,7 @@ svg {
   } */
   .tooltip {
     position: absolute;
-    z-index: 10;
+    z-index: 1000;
 }
 
 .tooltip-container {

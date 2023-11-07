@@ -68,21 +68,21 @@ function App() {
                 />
             </div>
             <div className="BarChart-Container">
-                <div className="Actual-BarChart-Box">
-                    <BarChart 
-                        data={data}
-                        newLoaded={newLoaded}
-                    />
-                </div>
                 <div className="X-Lable-Box">
                     {keys[0]}
                 </div>
                 <div className='Y-Label-Box'>
                     {keys[1] && keys[1].split('').map((letter, index) => (
-                <div key={index} className="Vertical-Text">
-                    {letter}
+                        <div key={index} className="Vertical-Text">
+                            {letter}
+                        </div>
+                    ))}
                 </div>
-                ))}
+                <div className="Actual-BarChart-Box">
+                    <BarChart 
+                        data={data}
+                        newLoaded={newLoaded}
+                    />
                 </div>
             </div>
         </div>
